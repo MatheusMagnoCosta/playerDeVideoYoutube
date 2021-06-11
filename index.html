@@ -35,7 +35,6 @@
 
 
         //ler as legendas e cria uma div com as tags p
-
         function createSubtitles() {
             for (let times of Object.keys(lyrics)) {
                 var lyric = lyrics[times];
@@ -43,16 +42,12 @@
                 para.setAttribute("id", times)
                 para.setAttribute("class", "regular")
                 para.setAttribute("onclick", "changeTimeVideo("+times+")")
-
                 var node = document.createTextNode(lyric);
                 para.appendChild(node);
                 var element = document.getElementById("subtitles");
                 element.appendChild(para);
             }
         }
-
-
-
 
         //API DO YOUTUBE https://developers.google.com/youtube/iframe_api_reference
 
@@ -78,26 +73,9 @@
 
 
         function onPlayerReady(event) {
-
-            ///
             videoDuration = parseInt(player.getDuration()); //pega o tempo total do video
             interval = setInterval(discoverTime, 1000); //a cada 1 seg ele verifica se uma uma legenda no tempo
-            ///
-
             event.target.playVideo();
-        }
-
-
-        var done = false;
-        function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING && !done) {
-                setTimeout(stopVideo, 20000); //pausa o video em determinado tempo
-                done = true;
-            }
-        }
-
-        function stopVideo() {
-            player.stopVideo();
         }
 
         function changeTimeVideo(time){
@@ -126,8 +104,6 @@
             }
             console.log("limpei")
         }
-
-
 
         //Executa algo quando o tempo é atingido
         function fireEvent(index) {

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="./styles.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="player">
+        </div>
+        <div id="subtitles"></div>
+    </div>
+
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script>
+
+        var lyrics = {
+            0: 'Olá, Bem vindo ao emagrecimento com Lara Nesteruk',
+            3: 'um curso para você que tem como objetivo',
+            6: 'Diminuir seu percentual de gordura',
+            7: 'de emagrecer, de ficar mais saudável',
+            10: 'eu estou muito feliz de ter você aqui',
+            12: 'eu espero que a gente fique junto por',
+            13: 'essas proximas 4 semanas',
+            15: 'de muito aprendizado e muita coisa boa'
+        };
+
+        function createSubtitles() {
+            for (let times of Object.keys(lyrics)) {
+                var lyric = lyrics[times];
+                var para = document.createElement("p");
+                para.setAttribute("id", times)
+                para.setAttribute("class", "regular")
+                para.setAttribute("onclick", "changeTimeVideo(" + times + ")")
+                var node = document.createTextNode(lyric);
+                para.appendChild(node);
+                var element = document.getElementById("subtitles");
+                element.appendChild(para);
+            }
+        }
+        
+
+        var player = new Vimeo.Player('player', {
+            id: 249793658,
+            width: 640,
+            loop: false,
+            title: false,
+            byline: false,
+            portrait: false,
+        });
+        createSubtitles();
+        onPlayerReady();
+
+        async function onPlayerReady() {
+            durationVideo = await player.getDuration();
+            interval = setInterval(discoverTime, 1000);
+        }
+
+        async function discoverTime() {
+            if (player.getCurrentTime) {
+                videotime = parseInt(await player.getCurrentTime());
+            }
+            if (videotime < durationVideo && lyrics[videotime]) {
+                clearEvent();
+                fireEvent(videotime);
+            }
+
+            if (videotime > durationVideo) {
+                clearInterval(interval);
+            }
+        }
+
+        function changeTimeVideo(time){
+            player.setCurrentTime(time)
+        }
+
+        function clearEvent() {
+            var subtitlesBold = document.getElementsByClassName("bold");
+            for (var i = 0; i < subtitlesBold.length; i++) {
+                subtitlesBold[i].className = 'regular';
+            }
+            console.log("limpei")
+        }
+
+        function fireEvent(index) {
+            indexToString = String(index);
+            document.getElementById(indexToString).className = "bold";
+            
+        }
+
+
+
+
+    </script>
+
+
+
+    <script src="https://player.vimeo.com/api/player.js"></script>
+
+</body>
+
+</html>

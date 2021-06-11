@@ -13,20 +13,18 @@ body {
 .container {
     display: flex;
   }
-.playerVideo{
-    width: auto;
-    padding: 10px;
-    background-color: red;
-}
 
 #player{
-    padding: 0px 30px 0px 10px;
+    width: 640px;
+    height: 360px;
+    border-style: dotted;
+    border: 1px solid #60666d;
 }
 #subtitles{
     overflow-y: scroll;
     background-color:white;
     padding: 0px 10px 0px 10px;
-    width: auto;
+    width: 300px;
     height: 360px;
     font-size: 16px;
     box-shadow: 0 10px 25px -5px
