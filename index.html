@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="./styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <div id="player"></div>
+        <div id="subtitles"></div>
+    </div>
+
+
+
+    <script>
+
+        var lyrics = {
+            0: 'Sabe aquele termo "ask me anything" ',
+            1: 'que é me pergunte qualquer coisa',
+            3: 'então hoje, segunda feria as 20 horas, horario',
+            5: 'de Brasilia, eu vou estar ao vivo aqui no',
+            8: 'youtube para responder o máximo  de',
+            10: 'perguntas que eu puder, e sim você vai',
+            11: 'poder fazer qualquer tipo de pergunta',
+            13: 'sem filtro, vai ser muito massa eu',
+            16: 'ja deixei o link dessa live na descrição',
+            18: 'e a gente se ve la. Fechado? Valeu!'
+        };
+
+
+
+        //ler as legendas e cria uma div com as tags p
+
+        function createSubtitles() {
+            for (let times of Object.keys(lyrics)) {
+                var lyric = lyrics[times];
+                var para = document.createElement("p");
+                para.setAttribute("id", times)
+                para.setAttribute("class", "regular")
+                para.setAttribute("onclick", "changeTimeVideo("+times+")")
+
+                var node = document.createTextNode(lyric);
+                para.appendChild(node);
+                var element = document.getElementById("subtitles");
+                element.appendChild(para);
+            }
+        }
+
+
+
+
+        //API DO YOUTUBE https://developers.google.com/youtube/iframe_api_reference
+
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                start: '3',
+                height: '360',
+                width: '640',
+                videoId: 'uOEgYrTp5ls',
+                events: {
+                    'onReady': onPlayerReady,
+                }
+            });
+            createSubtitles()
+        }
+
+
+        function onPlayerReady(event) {
+
+            ///
+            videoDuration = parseInt(player.getDuration()); //pega o tempo total do video
+            interval = setInterval(discoverTime, 1000); //a cada 1 seg ele verifica se uma uma legenda no tempo
+            ///
+
+            event.target.playVideo();
+        }
+
+
+        var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                setTimeout(stopVideo, 20000); //pausa o video em determinado tempo
+                done = true;
+            }
+        }
+
+        function stopVideo() {
+            player.stopVideo();
+        }
+
+        function changeTimeVideo(time){
+            player.seekTo(time)
+        }
+
+        /// Descobrir o tempo do video
+        function discoverTime() {
+            if (player.getCurrentTime) {
+                videotime = parseInt(player.getCurrentTime());
+            }
+            if (videotime < videoDuration && lyrics[videotime]) {
+                clearEvent();
+                fireEvent(videotime);
+            }
+
+            if (videotime > videoDuration) {
+                clearInterval(interval);
+            }
+        }
+
+        function clearEvent() {
+            var subtitlesBold = document.getElementsByClassName("bold");
+            for (var i = 0; i < subtitlesBold.length; i++) {
+                subtitlesBold[i].className = 'regular';
+            }
+            console.log("limpei")
+        }
+
+
+
+        //Executa algo quando o tempo é atingido
+        function fireEvent(index) {
+            indexToString = String(index);
+            document.getElementById(indexToString).className = "bold";
+            
+        }
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>

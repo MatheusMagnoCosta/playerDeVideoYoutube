@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+  }
+.playerVideo{
+    width: auto;
+    padding: 10px;
+    background-color: red;
+}
+
+#player{
+    padding: 0px 30px 0px 10px;
+}
+#subtitles{
+    overflow-y: scroll;
+    background-color: gray;
+    padding: 0px 10px 0px 10px;
+    width: auto;
+    height: 360px;
+}
+.legenda{
+    width: auto;
+    height: auto;
+    background-color: yellow;
+}
+
+.regular{
+    font-weight: normal;
+}
+
+.bold{
+    font-weight: bold;
+}
