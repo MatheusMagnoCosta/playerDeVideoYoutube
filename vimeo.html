@@ -21,14 +21,16 @@
     <script>
 
         var lyrics = {
-            0: 'Olá, Bem vindo ao emagrecimento com Lara Nesteruk',
-            3: 'um curso para você que tem como objetivo',
-            6: 'Diminuir seu percentual de gordura',
-            7: 'de emagrecer, de ficar mais saudável',
-            10: 'eu estou muito feliz de ter você aqui',
-            12: 'eu espero que a gente fique junto por',
-            13: 'essas proximas 4 semanas',
-            15: 'de muito aprendizado e muita coisa boa'
+            9: 'bom, ja entendemos o que iremos ver',
+            10: 'durante nosso curso',
+            11: 'agora vamos preparar nosso ambiente',
+            14: 'primeiro passo é instalar o python',
+            18: 'para a gente instalar o python',
+            19: 'você vai acessar o site python.org',
+            22: 'e aqui no site a gente tem a opção de downloads',
+            25: 'dependendo do sistema operacional que',
+            28: 'você estiver utilizando'
+
         };
 
         function createSubtitles() {
@@ -47,7 +49,7 @@
         
 
         var player = new Vimeo.Player('player', {
-            id: 249793658,
+            url: "https://vimeo.com/562048431/d580dccc41",
             width: 640,
             loop: false,
             title: false,
@@ -85,7 +87,6 @@
             for (var i = 0; i < subtitlesBold.length; i++) {
                 subtitlesBold[i].className = 'regular';
             }
-            console.log("limpei")
         }
 
         function fireEvent(index) {
